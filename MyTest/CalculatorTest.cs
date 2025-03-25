@@ -22,11 +22,11 @@ namespace MyTest
         public void AddTestLog()
         {
             Assert.Equal(3, _calculator.Add(1,2));
-            _output.WriteLine("ログ表示");
-            Console.WriteLine("ログ表示されない");
+            _output.WriteLine("This is Log");
+            Console.WriteLine("Not Disp Log");
         }
 
-        [Fact(DisplayName = "最初のテスト")]
+        [Fact(DisplayName = "First Test")]
         public void AddTestFact()
         {
             Assert.Equal(3, _calculator.Add(1,2));
