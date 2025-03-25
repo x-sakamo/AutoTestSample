@@ -29,14 +29,14 @@ jobs:
         
       - name: Build
         run: dotnet build --no-restore
-        working-directory: ./AutoTestSample
+        working-directory: .
         
       - name: Run XUnit tests
         run: dotnet test --no-build --logger: "xunit:LogFilePath=test_result.xml"
-        working-directory: ./AutoTestSample/MyTest
+        working-directory: ./MyTest
         
       - name: Publish test results as GitHub report
         uses: EnricoMi/publish-unit-test-result-action/windows@v2
         if: always()
         with:
-          files: ./AutoTestSample/MyTest/test_result.xml
+          files: ./MyTest/test_result.xml
