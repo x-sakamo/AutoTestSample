@@ -1,0 +1,42 @@
+name: .NET Test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.cs'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout reopsitory
+        uses: actions/checkout@v3
+        
+      - name: Setup .NET 5.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '5.x'
+          
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./AutoTestSample
+        
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: ./AutoTestSample
+        
+      - name: Run XUnit tests
+        run: dotnet test --no-build --logger: "xunit:LogFilePath=test_result.xml"
+        working-directory: ./AutoTestSample/MyTest
+        
+      - name: Publish test results as GitHub report
+        uses: EnricoMi/publish-unit-test-result-action/windows@v2
+        if: always()
+        with:
+          files: ./AutoTestSample/MyTest/test_result.xml
