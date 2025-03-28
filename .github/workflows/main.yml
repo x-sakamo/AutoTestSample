@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+      - 'develop/**'
+    paths:
+      - '**.cs'
+      - '**.yml'
   pull_request:
     branches:
       - main
@@ -27,7 +31,7 @@ jobs:
         
       - name: Build
         run: dotnet build --no-restore
-        working-directory: .
+        working-directory: ./AutoTestSample
         
       - name: Run XUnit tests
         run: dotnet test --no-build --logger:"xunit;LogFilePath=test_result.xml"
