@@ -1,0 +1,37 @@
+# コードカバレッジが60%以上でないとexit 1を返す
+# coverage/*/coverage.infoを読み込む(coverlet.collectorでLCOVの出力先をここに設定する)
+coverage:
+  acceptable: 60%
+  paths:
+    - coverage/*/coverage.info
+      
+# テストの実行時間として利用するsteps (Actions側でnameを'dotnet test'にしている場合)
+testExecutionTime:
+  steps:
+    - 'dotnet test'
+
+# codeとtestの割合を計算するのに利用するファイル
+codeToTestRatio:
+  code:
+    - 'MyConsoleApp/**/*.cs'
+  test:
+    - 'MyTest/**/*.cs'
+      
+# プルリクエストにコメントをつける
+comment:
+  if: is_pull_request
+  hideFooterLink: true
+
+# JobのSummaryを表示する
+summary:
+  if: true
+  
+# 差分を表示するためにArtifactを利用
+report:
+  if: is_default_branch
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}/dotnet-test-report
+      
+diff:
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}/dotnet-test-report
