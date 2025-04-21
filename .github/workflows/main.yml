@@ -56,8 +56,13 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '5.x'
+      
       - run: dotnet restore
+        working-directory: ./MyConsoleApp
+      
       - run: dotnet build --configuration Release --no-restore
+        working-directory: ./MyConsoleApp
+        
       - name: dotnet test
         run: dotnet test --configuration Release --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage;Format=lcov;"  --results-directory:${{ env.LCOV_DIR }}
       - uses: k1LoW/octocov-action@v1
