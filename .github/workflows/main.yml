@@ -65,6 +65,8 @@ jobs:
         
       - name: dotnet test
         run: dotnet test --configuration Release --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage;Format=lcov;"  --results-directory:${{ env.LCOV_DIR }}
+        working-directory: ./MyConsoleApp/MyTest
+        
       - uses: k1LoW/octocov-action@v1
         with:
           config: .octocov.yml
