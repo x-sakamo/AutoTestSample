@@ -15,6 +15,12 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      actions: read
+    env:
+      LCOV_DIR: ${{ github.workspace }}/coverage
 
     steps:
       - name: Checkout reopsitory
@@ -33,36 +39,6 @@ jobs:
         run: dotnet build --no-restore
         working-directory: ./MyConsoleApp
         
-      - name: Run XUnit tests
-        run: dotnet test --collect:"XPlat Code Coverage;Format=cobertura,lcov;" -- results-directory:"./Result"
-        working-directory: ./MyConsoleApp/MyTest
-
-      - name: Publish test results as GitHub report
-        uses: EnricoMi/publish-unit-test-result-action/windows@v2
-        if: always()
-        with:
-          files: ./MyConsoleApp/MyTest/test_result.xml
-
-  test:
-    runs-on: windows-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      actions: read
-    env:
-      LCOV_DIR: ${{ github.workspace }}/coverage
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '5.x'
-      
-      - run: dotnet restore
-        working-directory: ./MyConsoleApp
-      
-      - run: dotnet build --configuration Release --no-restore
-        working-directory: ./MyConsoleApp
-        
       - name: dotnet test
         run: dotnet test --configuration Release --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage;Format=lcov;"  --results-directory:${{ env.LCOV_DIR }}
         working-directory: ./MyConsoleApp/MyTest
@@ -73,3 +49,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+
