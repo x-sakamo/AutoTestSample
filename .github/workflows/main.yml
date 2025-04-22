@@ -36,7 +36,7 @@ jobs:
         working-directory: ./MyConsoleApp
         
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --configuration Release --no-restore
         working-directory: ./MyConsoleApp
         
       - name: dotnet test
