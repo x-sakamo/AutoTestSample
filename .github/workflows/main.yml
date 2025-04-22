@@ -35,13 +35,6 @@ jobs:
         
       - name: Run XUnit tests
         run: dotnet test --collect:"XPlat Code Coverage;Format=cobertura,lcov;" -- results-directory:"./Result"
-        working-directory: ./MyConsoleApp/MyTest
-        
-      - name: Publish test results as GitHub report
-        uses: EnricoMi/publish-unit-test-result-action/windows@v2
-        if: always()
-        with:
-          files: ./MyConsoleApp/MyTest/test_result.xml
 
   test:
     runs-on: windows-latest
