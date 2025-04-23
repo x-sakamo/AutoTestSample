@@ -16,9 +16,9 @@ jobs:
   test:
     runs-on: windows-latest
     permissions:
-      contents: read
+      contents: read, write
       pull-requests: write
-      actions: read
+      actions: read, write
     env:
       LCOV_DIR: ${{ github.workspace }}/coverage
 
